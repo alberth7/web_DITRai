@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DITRai</title>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="Choropleth Map,Geo Chart,Dot Chart,Dot Map,Marker Chart,Point Map,Statistical Data,Bubble Chart,Bubble Map,Proportional Symbol Map" name="keywords">
+    <meta content="AnyChart - JavaScript Charts designed to be embedded and integrated" name="description">
+    <link href="https://playground.anychart.com/iQ4Daqiu/iframe" rel="canonical">
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    
+        <link rel="stylesheet" href="main.css ">
+    <link href="css/anychart-ui.min.css" rel="stylesheet" type="text/css">
+    <link href="css/anychart-font.css" rel="stylesheet" type="text/css">
+    
+</head>
+<body>
+
+    <header class="header">
+        <div class="wrapper">
+          <div class="header-grid">
+            <div>
+              <img src="./images/logo_ditrai.png" alt="logo" class="logo">
+              <h1>Detector Inteligente de Tráfico de Red</h1>
+              <p class="header-total">Intelingencia Artificial - Machine Learning</p>
+            </div>
+          </div>
+        </div>
+    </header>
+
+    <div class="fileDropArea">
+        <div class="drop-area">
+            <h2>Arrastra y suelta el archivo .xml</h2>
+            <span></span>
+            <button>Selecciona el archivo</button>
+            <input type="file" name="file" id="input-file" hidden multiple>
+        </div>    
+        <div id="preview"></div>
+    </div>
+    <div class="content-btn">
+        <button class="btn-analizar"  onclick="cambiarDisplay()"> Analizar</button>
+    </div>
+
+    <div class="resultados">
+
+    
+    <div class="title-resultado">
+        <h2>Resulados: </h2>
+
+    </div>
+    <div>
+        <iframe class="mapa" src="mapa.html" width="100%" height="700px" frameborder="0"></iframe>
+    
+    
+    <script>
+        function cambiarDisplay() {
+          const myElement = document.querySelector('.resultados');
+          myElement.style.display = 'grid';
+        }
+    </script>
+    </div>
+
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>
