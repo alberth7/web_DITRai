@@ -58,6 +58,10 @@ body{
     border-radius: 0 0 20px 20px;
     padding-top: 2em;
   }
+.wrapper {
+    padding: 0 30px;
+  }
+
   .header-total {
     color: var(--gray);
     margin: .5em 0;
@@ -73,9 +77,6 @@ body{
     margin: 0;
     align-content: center;
     text-align: center;
-  }
-  .wrapper {
-    padding: 0 30px;
   }
 
 .drop-area h2{

@@ -71,7 +71,7 @@ app.get('/apitest', (req, res) => {
     // Crear un objeto JSON con los datos a enviar
     const data = 
         [{
-            "id": "BR",
+            "id": "RU",
             "name": "Brasil",
             "size": 7.5,
             "date": "26 October 2015",
@@ -99,13 +99,13 @@ app.get('/apitest', (req, res) => {
   });
 
 app.get('/api', (req, res) => {
-    fs.readFile('/home/michael/Documents/code/dragDrop/server/results/resultadoAI.json', 'utf8', (err, data) => {
+    fs.readFile('E:\\thesis_2022\\thesis_code\\web_DITRai\\server\\results\\resultadoAI.json', 'utf8', (err, data) => {
       if (err) throw err;
       res.json(JSON.parse(data));
     });
   });  
 
-app.listen(3000, ()=>{
-    console.log("Server running on port 3000");
+app.listen(3003, ()=>{
+    console.log("Server running on port 3003");
 });
 

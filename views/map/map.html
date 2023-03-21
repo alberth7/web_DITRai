@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <title>DITRai</title>
+  <link href="https://playground.anychart.com/fa6WhuzH/iframe" rel="canonical">
+  <meta content="AJAX Chart,Bubble Chart,Bubble Map,Chart from JSON,Choropleth Map,Geo Chart,Geo Visualization,JSON Chart,JSON Plot,Proportional Symbol Map,Statistical Data,Tooltip" name="keywords">
+  <meta content="AnyChart - JavaScript Charts designed to be embedded and integrated" name="description">
+  <!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+  <link href="https://cdn.anychart.com/releases/v8/css/anychart-ui.min.css?hcode=c11e6e3cfefb406e8ce8d99fa8368d33" rel="stylesheet" type="text/css">
+  <link href="https://cdn.anychart.com/releases/v8/fonts/css/anychart-font.min.css?hcode=c11e6e3cfefb406e8ce8d99fa8368d33" rel="stylesheet" type="text/css">
+  <style>html, body, #container {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}</style>
+ </head>
+ <body>
+  <div id="container"></div>
+  <script src="js/data.js"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js?hcode=c11e6e3cfefb406e8ce8d99fa8368d33"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-ui.min.js?hcode=c11e6e3cfefb406e8ce8d99fa8368d33"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-exports.min.js?hcode=c11e6e3cfefb406e8ce8d99fa8368d33"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-map.min.js?hcode=c11e6e3cfefb406e8ce8d99fa8368d33"></script>
+  <script src="https://cdn.anychart.com/releases/v8/js/anychart-data-adapter.min.js?hcode=c11e6e3cfefb406e8ce8d99fa8368d33"></script>
+  <script src="./js/world.js"></script>
+  <script src="./js/proj4.js"></script>
+  <script type="text/javascript">anychart.onDocumentReady(function () {
+    // The data used in this sample can be obtained from the CDN
+    // js/data.json
+    //anychart.data.loadJsonFile('https://cdn.anychart.com/samples/maps-bubble/bubble-earthquakes-map/data.json', function (data) {
+        //anychart.data.loadJsonFile('./js/data.js', function (data) {
+        anychart.data.loadJsonFile('http://localhost:3003/api', function (data) {
+
+        var map = anychart.map();
+        map.credits()
+                .enabled(true)
+                .url('http://localhost:3003/apitest')
+                .logoSrc('http://localhost:3003/apitest')
+                .text('http://localhost:3003/apitest');
+
+        map.title()
+                .enabled(true)
+                .useHtml(true)
+                .padding([10, 0, 10, 0])
+                .text('Resultados de las IPs sospechosas<br/>' +
+                        '<span  style="color:#929292; font-size: 12px;">' +
+                        '</span>');
+
+        map.geoData('anychart.maps.world');
+
+        map.interactivity().selectionMode('none');
+        map.padding(0);
+
+        var dataSet = anychart.data.set(data);
+        var density_data = dataSet.mapAs({'size': 'population'});
+        var series = map.bubble(density_data);
+
+        // set chart bubble settings
+        map.maxBubbleSize('2%')
+                .minBubbleSize('0.5%');
+
+        series.labels(false)
+                .selectionMode('none');
+
+        var series_choropleth = map.choropleth(density_data);
+        series_choropleth.selectionMode('none')
+                .fill('#eaeaea')
+                .stroke('#929292')
+                .labels(false);
+
+        series_choropleth.hovered()
+                .stroke('#eaeaea')
+                .fill('#929292');
+                
+        map.tooltip()
+        .useHtml(true)
+                .title({fontColor: '#7c868e'})
+                .padding([8, 13, 10, 13])
+                .format(function () {
+                    var span_for_value = '<span style="color: #d9d9d9; font-size: 12px; font-weight: bold">';
+                    var span_for_percent = '<span style="color: #d9d9d9; font-size: 12px; font-weight: bold">';
+                    var span_for_date = '<br/><span style="color: #d9d9d9; font-size: 11px">';
+                    var span_for_ipdst = '<br/><span style="color: #d9d9d9; font-size: 11px">';
+                    var span_for_ipsrc = '<br/><span style="color: #d9d9d9; font-size: 11px">';
+                    var span_for_description = '<br/><span style="color: #d9d9d9; font-size: 12px; font-style: italic">"';
+                    var span_for_protocol = '<br/><span style="color: #d9d9d9; font-size: 12px; font-style: italic">';
+                    if (this.getData('description') != '') {
+                        return span_for_value + 'Porcentaje: '+this.getData('percent') + '</span></strong>'
+                                + span_for_protocol +'Protocolo: '+this.getData('protocolo') + '</span>'
+                                + span_for_ipdst + 'IP dst: '+this.getData('ipdst') + '</span>'
+                                + span_for_ipdst + 'IP src: '+this.getData('ipsrc') + '</span>';
+                    } else {
+                        return span_for_value + this.size + ' </span></strong>'
+                                + span_for_date + this.getData('date') + '</span>';
+                    }
+                });
+        // create zoom controls
+        var zoomController = anychart.ui.zoom();
+        zoomController.render(map);
+
+        // set container id for the chart
+        map.container('container');
+        // initiate chart drawing
+        map.draw();
+    });
+});</script>
+ </body>
+</html>
